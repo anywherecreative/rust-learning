@@ -1,10 +1,12 @@
 fn main() {
-    let str = String::from("first, last, email, phone\njeff,manning,555-555-1234,test@example.com");
+    println!("{:?}", get_col_val(1));
+    println!("{:?}", get_col_val(2));
+}
 
-    for line in str.split("\n") {
-        for col in line.split(",") {
-            print!("{}, ", col.trim())
-        }
-        println!("");
+fn get_col_val(col: i32 ) -> Option<String> {
+    if col == 1 {
+        Some("Jeff".to_string())
+    } else {
+        None
     }
 }
