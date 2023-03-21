@@ -1,18 +1,15 @@
-fn main() {
-    for a in 0..5 {
-        let val = get_col_val(a);
-        if val.is_some()  {
-            println!("{} {}",a,val.unwrap())
-        } else {
-            println!("{}",a)
-        }
-    }
+use std::io::{stdout, Write};
+use curl::easy::{Easy, WriteError};
+
+fn write_data(data: &[u8]) -> Result<usize, WriteError> {
+    stdout().write_all(data)
+        .map_err(|e| WriteError::from((e, data.len())))
+        .map(|_| data.len())
 }
 
-fn get_col_val(col: i32 ) -> Option<String> {
-    if col == 1 {
-        Some("Jeff".to_string())
-    } else {
-        None
-    }
+fn main() {
+    let mut easy = Easy::new();
+    easy.url("https://www.rust-lang.org/").unwrap();
+    easy.write_function(|data| write_data(data)).unwrap();
+    easy.perform().unwrap();
 }
